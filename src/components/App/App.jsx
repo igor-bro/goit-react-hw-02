@@ -35,22 +35,30 @@ export default function App() {
   };
 
   const totalFeedback = state.good + state.neutral + state.bad;
+  const positiveFeedback = Math.round(
+    ((state.good + state.neutral) / totalFeedback) * 100
+  );
+
   const notificationText = 'No feedback yet';
 
   return (
     <div className="container">
       <Description
         title="Sip Happens Café"
-        text="Please leave your feedback about our service by selecting one of the options below.
-"
-      ></Description>
+        text="Please leave your feedback about our service by selecting one of the options below."
+      />
       <Options
         updateFeedback={updateFeedback}
         resetFeedback={resetFeedback}
         totalFeedback={totalFeedback}
       />
       {totalFeedback ? (
-        <Feedback {...state} />
+        <Feedback
+          good={state.good}
+          neutral={state.neutral}
+          bad={state.bad}
+          positivePercentage={positiveFeedback}
+        />
       ) : (
         <Notification text={notificationText} />
       )}
